@@ -1,4 +1,4 @@
-sever:
+server:
   port: 8761
 spring:
   application:
@@ -6,4 +6,4 @@ spring:
 eureka:
   client:
     registerWithEureka: false
-    fetch-registry: false
+    fetchRegistry: false

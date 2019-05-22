@@ -1,22 +1,23 @@
-package com.springcloud.edu.dataservice;
+package com.springcloud.edu.zuul;
 
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.cloud.client.circuitbreaker.EnableCircuitBreaker;
 import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
+import org.springframework.cloud.netflix.zuul.EnableZuulProxy;
 
 /**
  * @author huangl
  * @description
- * @Date 2019/5/22 11:14
+ * @Date 2019/5/22 14:48
  **/
 @SpringBootApplication
 @EnableDiscoveryClient
+@EnableZuulProxy
 @EnableCircuitBreaker
-public class DataServiceApplication {
+public class ZuulServerApplication {
 
     public static void main(String[] args) {
-        SpringApplication.run(DataServiceApplication.class, args);
+        SpringApplication.run(ZuulServerApplication.class, args);
     }
-
 }
