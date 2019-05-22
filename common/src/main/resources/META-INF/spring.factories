@@ -1,2 +1,2 @@
 org.springframework.boot.autoconfigure.EnableAutoConfiguration=\
-  cn.springcloud.book.common.config.CommonConfiguration
+  com.springcloud.edu.dataservice.config.common.config.CommonConfiguration
