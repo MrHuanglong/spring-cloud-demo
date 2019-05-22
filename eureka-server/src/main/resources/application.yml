@@ -1,0 +1,9 @@
+sever:
+  port: 8761
+spring:
+  application:
+    name: sc-eurekaserver
+eureka:
+  client:
+    registerWithEureka: false
+    fetch-registry: false
