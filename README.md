@@ -19,7 +19,7 @@ data-service |  8099 | 数据服务，提供基础的数据
 这就说明拦截器起到了作用，对于没有用户信息这样不合法的请求进行了拦截。
 ``` 
     public class UserContextInterceptor implements HandlerInterceptor {    
-       ***
+       /* 省略代码 */
        @Override
        public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
            User user = new User(HttpConvertUtil.httpRequestToMap(request));
@@ -41,28 +41,28 @@ data-service |  8099 | 数据服务，提供基础的数据
 x-customs-user则鉴权不通过，代码如下：
 ```
     public class AuthFilter extends ZuulFilter {
+        /* 省略代码 */
         public final static String CONTEXT_KEY_USERID = "x-customs-user";
         public static void authUser(RequestContext ctx) {
-                HttpServletRequest request = ctx.getRequest();
-                Map<String, String> header = httpRequestToMap(request);
-                String userId = header.get(User.CONTEXT_KEY_USERID);
-                if(StringUtils.isEmpty(userId)) {
-                    try {
-                        BaseException BaseException = new BaseException(CommonError.AUTH_EMPTY_ERROR.getCode(),CommonError.AUTH_EMPTY_ERROR.getCodeEn(),CommonError.AUTH_EMPTY_ERROR.getMessage(),1L);
-                        BaseExceptionBody errorBody = new BaseExceptionBody(BaseException);
-                        ctx.setSendZuulResponse(false);
-                        ctx.setResponseStatusCode(401);
-                        ctx.setResponseBody(JSONObject.toJSON(errorBody).toString());
-                    } catch (Exception e) {
-                        logger.error("println message error",e);
-                    }
-                }else {
-                    for (Map.Entry<String, String> entry : header.entrySet()) {
-                        ctx.addZuulRequestHeader(entry.getKey(), entry.getValue());
-                    }
+            HttpServletRequest request = ctx.getRequest();
+            Map<String, String> header = httpRequestToMap(request);
+            String userId = header.get(User.CONTEXT_KEY_USERID);
+            if(StringUtils.isEmpty(userId)) {
+                try {
+                    BaseException BaseException = new BaseException(CommonError.AUTH_EMPTY_ERROR.getCode(),CommonError.AUTH_EMPTY_ERROR.getCodeEn(),CommonError.AUTH_EMPTY_ERROR.getMessage(),1L);
+                    BaseExceptionBody errorBody = new BaseExceptionBody(BaseException);
+                    ctx.setSendZuulResponse(false);
+                    ctx.setResponseStatusCode(401);
+                    ctx.setResponseBody(JSONObject.toJSON(errorBody).toString());
+                } catch (Exception e) {
+                    logger.error("println message error",e);
+                }
+            }else {
+                for (Map.Entry<String, String> entry : header.entrySet()) {
+                    ctx.addZuulRequestHeader(entry.getKey(), entry.getValue());
                 }
             }
-    
+        }
     }
 ```
 3) 请求头添加x-customs-user=spring,访问http://localhost:7777/sc-user-service/getContextUserId,
